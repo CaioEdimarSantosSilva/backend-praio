@@ -36,5 +36,3 @@ build/
 .env
 .env.local
 
-# Configurações sensíveis
-src/main/resources/application.properties
