@@ -29,10 +29,18 @@ public class BackendApplication {
 			LogRepository logRepo
 	) {
 		return args -> {
+			try {
+			var usuarios = usuarioRepository.findAll();
+			var praias = praiaRepository.findAll();
+
+			if (usuarios.isEmpty() || praias.isEmpty()) {
+				System.out.println("⚠️  Banco vazio — pulando inserção de dados de teste.");
+				return;
+			}
 
 			// Busca IDs reais do banco
-			String usuarioId = usuarioRepository.findAll().get(0).getId();
-			String praiaId = praiaRepository.findAll().get(0).getId();
+			String usuarioId = usuarios.get(0).getId();
+			String praiaId = praias.get(0).getId();
 
 			System.out.println("📌 Usando usuarioId: " + usuarioId);
 			System.out.println("📌 Usando praiaId: " + praiaId);
@@ -94,6 +102,9 @@ public class BackendApplication {
 			System.out.println("✅ Log salvo: " + log);
 
 			System.out.println("\n🎉 Todos os dados de teste foram inseridos com sucesso!");
+			} catch (Exception e) {
+				System.err.println("❌ Erro ao inserir dados de teste: " + e.getMessage());
+			}
 		};
 	}
 }
